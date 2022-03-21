@@ -1,0 +1,36 @@
+<launch>
+  <!-- <<< GET ARGUMENTS >>>   <node name="setup_params" pkg="sesa" type="add_params.py" />  -->
+  <rosparam command="load" file="$(find sesa)/config/my_params.yaml" />
+
+<!-- Configurates the RVIZ parameters and arguments -->
+  <node name="urdf_maker" pkg="sesa" type="make_my_urdf.py" />
+  <arg name="model" default="$(find sesa)/rviz/myrobot.urdf.xacro" />
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />  
+  <arg name="rvizconfig" default="$(find sesa)/rviz/urdf.rviz" />
+
+<!-- <<< START THE DIFFERENT NODES >>> -->
+  <!-- Node to handle the serial communication -->
+<!--  TODO --> 
+  <arg name="baud" default="115200"  />
+  <arg name="port" default="/dev/ttyACM0" />
+  <arg name="use_arduino" value="0" /> 
+
+  <!-- Node to read the IMUs values, and to convert them to RPY values -->
+  <node name="estimator" pkg="sesa" type="estimator.py"/>
+
+  <node if="$(eval use_arduino)" name="rosserial_arduino" pkg="rosserial_arduino" type="serial_node.py" args="$(arg port) _baud:=$(arg baud)"/>
+
+  <!-- Node to set the lastly saved calibration values to parameters, such that the board can read it and calibrate the IMUs -->
+  <!--<node name="calibrator_load" pkg="calibrator" type="load_auto_calib.py" /> -->
+
+  <!-- Generic node (RVIZ) to display the robot, through calib or arm visualization -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+
+
+
+  <!-- Node to publish the RPY values to RVIZ -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <!-- Stream saved bags through rosbag -->
+  <node name="my_rosbag" pkg="rosbag" type="play" args="$(find sesa)/saved/bags/video_IROS_0.bag" />
+</launch>
