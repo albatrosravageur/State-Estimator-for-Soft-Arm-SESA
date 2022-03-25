@@ -1,0 +1,59 @@
+
+%% Soft robots are limited by lack of sensors
+Proprioception, or the perception of the configuration of one's own body, is essential to robot planning and control.
+The configuration of a rigid-bodied robot can be fully described by a finite set of joint displacements which are readily measured using off-the-shelf sensors such as joint encoders.
+The configuration of a soft robot, however, is infinite dimensional and cannot readily be measured using off-the-shelf components.
+
+%% Existing soft sensor technologies
+To address this shortcoming, a number of sensing technologies have been developed specifically for soft robots \cite{wang2018toward}.
+Flexible resistive sensors infer strain by measuring the change in resistance of channels filled with conductive liquids such as liquid metals \cite{park2012design, muth2014embedded} or ionic liquids \cite{helps2018proprioceptive}.
+Flexible capacitive sensors estimate changes in geometry by measuring changes in capacitance of stretchable electrodes separated by an elastomeric dielectric layer \cite{yuen2018_strain}.
+Optical strain sensors detect changes in geometry by measuring variations in intensity, frequency, or phase of light in a light transmission medium \cite{galloway2019_fiberopt, ZHUANG20187, zhao2016helping, van2018soft}.
+Magnetic strain sensors infer displacement by measuring the response of a Hall effect sensor embedded in a soft medium relative to a fixed magnetic field \cite{luo2017_magnet, ozel2015precise}.
+Inductive strain sensors estimate changes in geometry by measuring inductance variations caused by transducer mechanisms such as coil geometry and mutual inductance \cite{felt2015contraction, lazarus2018bubble, felt2019inductance}.
+Deformable sensing fabrics or ``skins'' that incorporate several soft sensing technologies into a single versatile package have also been developed \cite{case2018_fabrics, Yuen2017_fabric}.
+
+%% FIG: Overview
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{fig/schematic2.png}
+    \caption{(a) The soft arm platform, with IMUs labeled, used to evaluate our estimation methods. (b) A serial-chain rigid-body model approximation of the soft arm motion is shown.}
+    \label{fig:schematic}
+\end{figure}
+
+%% Current custom soft robot sensors have shortcomings
+Each of these sensor types measure the strain of a flexible element.
+Using strain measurements to construct an estimate of the pose of a soft arm requires integrating strain along the length, imposing accuracy limitations since small inaccuracies in strain along the length will compound into much larger pose errors.
+Furthermore, while each sensor type has its own unique pros and cons, a common issue among them is nonlinear time-variant behavior and hysteresis.
+This has motivated the use of machine learning techniques to identify the mapping from raw sensor output to deformation from data \cite{tapia2020_makesense, truby2020_piezo, thuruthel2019soft}.
+
+%% Mocap is an okay alternative but has its own limitations
+An alternative to embedded sensors is an external motion capture system.
+Such systems utilize an array of externally-mounted infrared cameras to track the position of reflective markers in 3D space.
+By coating a soft robot in reflective markers one can use motion capture data to estimate the robot’s shape.
+Commercial motion capture systems offer an accurate and reliable method for sensing the deformation of soft robots, but they are expensive and impose severe restrictions on the environment in which a robot can operate.
+Motion capture systems are not portable, are sensitive to lighting conditions, and are susceptible to errors due to occlusions, making it impossible to use them outside of a controlled laboratory setting.
+
+%% Proposed solution: IMUs
+This paper explores the use of Inertial Measurement Units (IMUs) for sensing the shape of continuum soft robots.
+IMUs are off-the-shelf orientation sensors that combine a three-axis accelerometer, three-axis gyroscope, and three-axis magnetometer with an on-board sensor fusion algorithm.
+Due to their extensive use in smartphones, tablets, and wearable fitness trackers, IMUs have become widely available and inexpensive, and there are many well-developed computational resources for integrating them into robotic systems \cite{ahmad2013reviews}.
+
+%% Other papers that use IMUs for soft robots
+Previous work has explored the use of IMUs for proprioception in soft robots.
+In \cite{hughes2020sensing}, two IMUs were used in combination with motor encoders to estimate the pose of a single segment continuum body manipulator assuming constant curvature.
+In \cite{yirmibesoglu2016hybrid} two IMUs were embedded into the ends of an elastomeric liquid metal strain sensor to form a hybrid sensor capable of measuring the angle of deflection of a soft bending actuator and the joint position of a rigid robot arm. 
+In both of these cases, IMUs were combined with other sensor types (i.e. encoders, strain sensors) to estimate the pose of a one segment soft structure. 
+
+%% Summary of contributions
+The contribution of this paper is a simple method for estimating the shape of a full continuum arm using only IMUs.
+The approach approximates the infinite-dimensional shape of a continuum arm with a finite-dimensional rigid-body model, and does not require any prior training.
+In real-world validation experiments, it is shown to estimate end-effector position to within 10\% of arm length of median error, putting its accuracy on par with that of other soft sensors while avoiding the limitations imposed by external motion capture systems.
+
+%% Outline of the rest of paper
+The remainder of this paper is organized as follows.
+Section \ref{sec:methods} describes how IMU data is utilized to construct an estimate of the shape of a robot arm.
+Section \ref{sec:experiments} describes how the performance of the IMU-based sensing approach was evaluated on a real-world soft arm platform.
+Section \ref{sec:results} presents the results of these experiments.
+Section \ref{sec:discussion} discusses the results, likely sources of error, and potential improvements.
+Section \ref{sec:conclusion} offers concluding remarks and proposes several avenues for future work.
