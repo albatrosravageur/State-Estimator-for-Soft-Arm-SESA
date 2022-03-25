@@ -1,9 +1,0 @@
-<launch>
-<arg name="baud" default="115200"  />
-<arg name="port" default="/dev/ttyACM0" />
-
-<rosparam command="load" file="$(find sesa)/config/my_params.yaml" />
-<node name="rosserial_arduino" pkg="rosserial_arduino" type="serial_node.py" args="$(arg port) _baud:=$(arg baud)"/>
-<node name="calibrator" pkg="sesa" type="save_calibration.py" />
-
-</launch>

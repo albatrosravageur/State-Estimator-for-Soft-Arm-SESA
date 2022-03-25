@@ -1,9 +1,0 @@
-std_msgs/Header header 
-int8 imu_0
-int8 imu_1
-int8 imu_2
-int8 imu_3
-int8 imu_4
-int8 imu_5
-int8 imu_6
-int8 imu_7
