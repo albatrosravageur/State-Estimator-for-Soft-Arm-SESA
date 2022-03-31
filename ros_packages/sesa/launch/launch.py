@@ -19,7 +19,8 @@ if __name__ == '__main__':
 
     # Setup parameters
     imus = rospy.get_param('/imus')
-    rospy.set_param('/imus/amount', len(imus['positions'])-1)
+    rospy.set_param('/imus/list', [x+1 for x in range(8) if imus['enabled'][x]])
+    rospy.set_param('/imus/amount', sum([x for x in imus['enabled']]))
     
     markers = rospy.get_param('/markers')
     rospy.set_param('/markers/amount', len(markers['positions']))
