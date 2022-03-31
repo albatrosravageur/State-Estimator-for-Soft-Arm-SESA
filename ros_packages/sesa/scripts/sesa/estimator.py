@@ -34,14 +34,16 @@ def callback_quat(data):
     this_joint, next_joint = np.array([0,0,0], dtype=float) , np.array([0,0,0], dtype=float)
     marker_iter = 0
 
-    for imu in imus['amount']:
-        q0, q1  = Q[imu], Q[imu+1]
+    for imu in imus['list']:
+        #TODO #2
+        this_imu, prev_imu = imu, imus['list'][imus['list'].index(imu)-1] if imus['list'].index(imu) else 0
+        q0, q1  = Q[this_imu], Q[imu+1]
 
-        for segment in range(segments[imu-1]):
-            segment_length = (imus['positions'][imu]-imus['positions'][imu-1])/segments[imu-1]
+        for segment in range(segments[this_imu-1]):
+            segment_length = (imus['positions'][this_imu]-imus['positions'][prev_imu])/segments[this_imu-1]
 
             # Compute the local orientation
-            t = float(2*segment+1)/float(2*segments[imu-1])
+            t = float(2*segment+1)/float(2*segments[this_imu-1])
             qt = quaternion_slerp(q0,q1,t)
 
             # Compute the position of the next joint
@@ -52,13 +54,13 @@ def callback_quat(data):
             next_joint = this_joint + segment_length*rot_mat_3rd_column
                 
             # Send the transform 
-            target_ID = str(imu+1)+str(segment+1)
+            target_ID = str(this_imu+1)+str(segment+1)
             b.sendTransform(this_joint, qt, Time.now(), target_ID, 'base_link')
 
             # Save MoCap marker position
             if markers['use'] is False: continue 
             while marker_iter<markers['amount'] and \
-                markers_wrt_imus_segments[marker_iter]['imu'] == imu-1 and \
+                markers_wrt_imus_segments[marker_iter]['imu'] == prev_imu and \
                 markers_wrt_imus_segments[marker_iter]['segment'] == segment:
 
                 marker_coordinates = this_joint + markers_wrt_imus_segments[marker_iter]['dist_to_joint']*rot_mat_3rd_column
