@@ -99,7 +99,8 @@ def enable_widgets(ui):
     ui_model = [ ui.arm_length, ui.arm_radius, ui.N_Markers, ui.pos_IMU_1, ui.pos_IMU_2, ui.pos_IMU_3, ui.pos_IMU_4 \
         , ui.pos_IMU_5, ui.pos_IMU_6, ui.pos_IMU_7, ui.pos_IMU_8, ui.seg_1, ui.seg_2, ui.seg_3, ui.seg_4, ui.seg_5 ,ui.seg_6 \
             , ui.seg_7 , ui.seg_8, ui.marker_1, ui.marker_2, ui.marker_3, ui.marker_4, ui.marker_5, ui.marker_6, ui.marker_7, ui.marker_8\
-             ,  ui.base_quat_w,  ui.base_quat_x,  ui.base_quat_y,  ui.base_quat_z]
+             ,  ui.base_quat_w,  ui.base_quat_x,  ui.base_quat_y,  ui.base_quat_z, ui.imuActivate_1, ui.imuActivate_2, ui.imuActivate_3, \
+                 ui.imuActivate_4, ui.imuActivate_5, ui.imuActivate_6, ui.imuActivate_7, ui.imuActivate_8]
 
     for module in [ui_rviz, ui_rosbag_record, ui_model]:
         for widget in module:
@@ -232,27 +233,24 @@ def make_my_GUI():
     ui.marker_7.setValue(get_state_in_list(['markers','positions'],6))
     ui.marker_8.setValue(get_state_in_list(['markers','positions'],7))
 
-    ## Markers activtion
-    def enableButton(buttons, segments, positions, IDs, parameters):
-        def whenButtonChecked(button, segment, position, id, parameters):
-            button.setChecked(get_state_in_list(parameters, id))
-            for widget in [segment, position]:
-                try:
-                    widget.setEnabled('stream' in get_state(['mode']) and bool(button.isChecked()))
-                except:
-                    continue
+    ## Markers activation #TODO #1
+    ui.imuActivate_1.stateChanged.connect(lambda:set_state_in_list(['imus','enabled'], bool(ui.imuActivate_1.isChecked()), 0))
+    ui.imuActivate_2.stateChanged.connect(lambda:set_state_in_list(['imus','enabled'], bool(ui.imuActivate_2.isChecked()), 1))
+    ui.imuActivate_3.stateChanged.connect(lambda:set_state_in_list(['imus','enabled'], bool(ui.imuActivate_3.isChecked()), 2))
+    ui.imuActivate_4.stateChanged.connect(lambda:set_state_in_list(['imus','enabled'], bool(ui.imuActivate_4.isChecked()), 3))
+    ui.imuActivate_5.stateChanged.connect(lambda:set_state_in_list(['imus','enabled'], bool(ui.imuActivate_5.isChecked()), 4))
+    ui.imuActivate_6.stateChanged.connect(lambda:set_state_in_list(['imus','enabled'], bool(ui.imuActivate_6.isChecked()), 5))
+    ui.imuActivate_7.stateChanged.connect(lambda:set_state_in_list(['imus','enabled'], bool(ui.imuActivate_7.isChecked()), 6))
+    ui.imuActivate_8.stateChanged.connect(lambda:set_state_in_list(['imus','enabled'], bool(ui.imuActivate_8.isChecked()), 7))
 
-        for button, segment, position, id in zip(buttons, segments, positions, IDs):
-            button.stateChanged.connect(lambda:set_state_in_list(parameters, bool(button.isChecked()), id))    
-            whenButtonChecked(button, segment, position, id, parameters)
-
-    enableButtonsList = [ui.imuActivate_1, ui.imuActivate_2,ui.imuActivate_3,ui.imuActivate_4,\
-                        ui.imuActivate_5,ui.imuActivate_6,ui.imuActivate_7,ui.imuActivate_8]
-    positionList = [ui.pos_IMU_1 , ui.pos_IMU_2 , ui.pos_IMU_3 , ui.pos_IMU_4 , ui.pos_IMU_5 , ui.pos_IMU_6 , ui.pos_IMU_7 , ui.pos_IMU_8 ]
-    segmentsList = [ui.seg_1, ui.seg_2, ui.seg_3, ui.seg_4, ui.seg_5, ui.seg_6, ui.seg_7, ui.seg_8]
-    parametersList = ['imus','enabled']
-
-    enableButton(enableButtonsList, segmentsList, positionList, [0,1,2,3,4,5,6,7], parametersList)
+    ui.imuActivate_1.setChecked(get_state_in_list(['imus','enabled'],0))
+    ui.imuActivate_2.setChecked(get_state_in_list(['imus','enabled'],1))
+    ui.imuActivate_3.setChecked(get_state_in_list(['imus','enabled'],2))
+    ui.imuActivate_4.setChecked(get_state_in_list(['imus','enabled'],3))
+    ui.imuActivate_5.setChecked(get_state_in_list(['imus','enabled'],4))
+    ui.imuActivate_6.setChecked(get_state_in_list(['imus','enabled'],5))
+    ui.imuActivate_7.setChecked(get_state_in_list(['imus','enabled'],6))
+    ui.imuActivate_8.setChecked(get_state_in_list(['imus','enabled'],7))
 
     ## quaternions
     ui.base_quat_w.valueChanged.connect(lambda:set_state(['imus','offset_quaternion','w'], float(ui.base_quat_w.value())))
