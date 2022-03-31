@@ -1,0 +1,5 @@
+<launch>
+<arg name="config_file" default="my_config.yaml" />
+<param name="config_file" value="$(arg config_file)" />
+<node name="my_launch" pkg="sesa" type="launch.py" args="$(arg config_file)" />
+</launch>

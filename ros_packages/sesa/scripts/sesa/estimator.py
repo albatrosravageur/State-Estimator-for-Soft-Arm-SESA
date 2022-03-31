@@ -26,29 +26,22 @@ def callback_quat(data):
     # Pushed the rotation and translation of the segments to robot_state_publisher
     b = TransformBroadcaster()
 
-    # IMU re-orientation using euler angles
-    e = euler_from_quaternion([data.x, data.y, data.z, data.w])
-    # TODO CHECK THIS OUT
+    # IMU re-orientation to fit their placement along the arm
     global Q
-    Q[data.ID+1] = quaternion_from_euler( \
-        (e[0]-imus['offset_euler_angles']['roll'])%(PI*2), \
-        (e[1]-imus['offset_euler_angles']['pitch'])%(PI*2), \
-        (e[2]-imus['offset_euler_angles']['yaw'])%(PI*2))
+    base_quat = rospy.get_param('imus/offset_quaternion')
+    Q[data.ID] = quaternion_multiply([data.x,data.y,data.z,data.w], [base_quat['x'], base_quat['y'], base_quat['z'], base_quat['w']])
 
     this_joint, next_joint = np.array([0,0,0], dtype=float) , np.array([0,0,0], dtype=float)
     marker_iter = 0
 
-    for imu in range(imus['amount']):
+    for imu in imus['amount']:
         q0, q1  = Q[imu], Q[imu+1]
 
-        for segment in range(segments[imu]):
-            if (1):
-                segment_length = (imus['positions'][imu+1]-imus['positions'][imu])/segments[imu]
-            else:
-                segment_length = (imus['positions'][imu]-imus['positions'][imu-1])/segments[imu]
-    
+        for segment in range(segments[imu-1]):
+            segment_length = (imus['positions'][imu]-imus['positions'][imu-1])/segments[imu-1]
+
             # Compute the local orientation
-            t = float(2*segment+1)/float(2*segments[imu])
+            t = float(2*segment+1)/float(2*segments[imu-1])
             qt = quaternion_slerp(q0,q1,t)
 
             # Compute the position of the next joint
@@ -65,7 +58,7 @@ def callback_quat(data):
             # Save MoCap marker position
             if markers['use'] is False: continue 
             while marker_iter<markers['amount'] and \
-                markers_wrt_imus_segments[marker_iter]['imu'] == imu and \
+                markers_wrt_imus_segments[marker_iter]['imu'] == imu-1 and \
                 markers_wrt_imus_segments[marker_iter]['segment'] == segment:
 
                 marker_coordinates = this_joint + markers_wrt_imus_segments[marker_iter]['dist_to_joint']*rot_mat_3rd_column
@@ -104,7 +97,7 @@ def fill_marker(data, this_translation, m_iter):
     out = marker()
     out.header = data.header
     out.header.stamp = rospy.Time.now()
-    setattr(out, 'ID',m_iter)
+    setattr(out, 'ID', m_iter)
     setattr(out, 'l', markers['positions'][m_iter])
     setattr(out, 'x', this_translation[0])
     setattr(out, 'y', this_translation[1])
@@ -139,9 +132,9 @@ if __name__ == '__main__':
 
     use_saved_calib = rospy.get_param('/calib/use_saved')
     if use_saved_calib:
-        file = rospy.get_param('/calib/saved_file')
-        rospy.set_param(rosparam.load_file(package_path+'/saved/calibs/'+file))
-
+        my_params = rosparam.load_file(package_path+'/calibs/'+ rospy.get_param('/calib/saved_file'))[0][0]
+        for key in my_params:
+           rospy.set_param('/'+key, my_params[key])
     listener()
 
 

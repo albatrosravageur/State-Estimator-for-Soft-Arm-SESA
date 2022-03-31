@@ -14,11 +14,10 @@
 
 #define N_IMU_MAX 8     // CAN BE CHANGED
 #define MUX_0_ADDR 0x70 // Using TCA9548A
-#define DELAY_BETWEEN_SIGNALS_MS 50
+#define DELAY_BETWEEN_SIGNALS_MS 500.0
 
 // BNO*** RELATED
 int n_imu;                                // # of bno*** sensors to measure
-int sample_rate_ms;                       // How often to read data from the board
 TCA9548A I2CMux(MUX_0_ADDR);              // Address can be passed into the constructor
 Adafruit_BNO055 bno[N_IMU_MAX];           // Handlers of the bno*** sensors
 
@@ -56,20 +55,20 @@ void setup_sensors()
   lcd.clear();
 }
 
-bool getAndPushSensorOffsets(int id)
+bool getAndStoreSensorOffsets(int id)
 {
     uint8_t system, gyro, accel, mag;
     system = gyro = accel = mag = 0;
     bno[id].getCalibration(&system, &gyro, &accel, &mag);
-    c.ID = id;
+    c.ID = id+1;
     c.sys = system;
     c.acc = accel;
     c.gyro= gyro;
     c.mag = mag;
 
     adafruit_bno055_offsets_t calibData;
-    bool cant_read;
-    cant_read = bno[id].getSensorOffsets(calibData);
+    bool can_read;
+    can_read = bno[id].getSensorOffsets(calibData);
     c.off_accX = calibData.accel_offset_x;
     c.off_accY = calibData.accel_offset_y;
     c.off_accZ = calibData.accel_offset_z;
@@ -81,7 +80,7 @@ bool getAndPushSensorOffsets(int id)
     c.off_gyroZ = calibData.gyro_offset_z;
     c.rad_acc = calibData.accel_radius;
     c.rad_mag = calibData.mag_radius;
-    return !cant_read;
+    return can_read;
 }
 
 void stream_calib()
@@ -94,7 +93,7 @@ void stream_calib()
     // Reads and publishes the state for each IMU seperately
     I2CMux.openChannel(i);
 
-    if (!getAndPushSensorOffsets(i))
+    if (!getAndStoreSensorOffsets(i))
     {
       if (!flag_was_disconnected)
       {
@@ -102,7 +101,7 @@ void stream_calib()
         flag_was_disconnected = 1;
         lcd.clear();
         lcd.print("IMU ");
-        lcd.print(i);
+        lcd.print(i+1);
         lcd.print(" disconnect");
       }
       bno[i] = Adafruit_BNO055(55, 0x28);
@@ -110,7 +109,7 @@ void stream_calib()
       {
         lcd.clear();
         lcd.print("IMU ");
-        lcd.print(String(i));
+        lcd.print(String(i+1));
         lcd.print(" is back!");
       }
     }
@@ -150,7 +149,6 @@ void setup()
 
   // Sensors Setup
   nh.getParam("/imus/amount", &n_imu);
-  nh.getParam("/arduino/sampling_rate_ms", &sample_rate_ms);
 
   I2CMux.begin(Wire);
   I2CMux.closeAll(); // Set a base state which we know (also the default state on power on)
@@ -176,10 +174,10 @@ void loop()
     }
   }
 
-  while ((micros() - tStart) < (sample_rate_ms * 1000))
+  while ((micros() - tStart) < (DELAY_BETWEEN_SIGNALS_MS * 1000.0))
   {
     nh.spinOnce();
-    delay(DELAY_BETWEEN_SIGNALS_MS);
+    delay(50);
     // poll until the next sample is ready
   }
 }

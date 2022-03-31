@@ -18,11 +18,12 @@
 
 #define BUTTON_CALIB_INPUT A1
 #define BUTTON_CALIB_OUTPUT A2
+#define DELAY_BETWEEN_SIGNALS_MS 50.0
 
 // BNO*** RELATED
-int n_bno;                      // # of bno*** sensors to measure
-int stream_acc;                 // Stream only orientation or orientation + acc
-int sample_rate_ms;             // How often to read data from the board
+int n_bno;      // # of bno*** sensors to measure
+int stream_acc; // Stream only orientation or orientation + acc
+int fast_mag_calib;
 TCA9548A I2CMux(MUX_0_ADDR);    // Address can be passed into the constructor
 Adafruit_BNO055 bno[N_BNO_MAX]; // Handlers of the bno*** sensors
 
@@ -59,6 +60,14 @@ void setup_sensors()
     count += bno[i].begin();
     bno[i].setAxisRemap(bno[i].REMAP_CONFIG_P1);
     bno[i].setAxisSign(bno[i].REMAP_SIGN_P1);
+    if (fast_mag_calib)
+    {
+      bno[i].setMode(bno[i].OPERATION_MODE_NDOF);
+    }
+    else
+    {
+      bno[i].setMode(bno[i].OPERATION_MODE_NDOF_FMC_OFF);
+    }
     I2CMux.closeChannel(i);
   }
   lcd.clear();
@@ -72,7 +81,7 @@ void stream_acc_bno()
     I2CMux.openChannel(i);
     bno[i].getEvent(&accelerometerData, Adafruit_BNO055::VECTOR_ACCELEROMETER);
     I2CMux.closeChannel(i);
-    a.ID = i;
+    a.ID = i + 1;
     // BASIS CHANGE HERE
     a.x = accelerometerData.acceleration.x;
     a.y = accelerometerData.acceleration.z;
@@ -101,7 +110,7 @@ void stream_quat_bno()
     // Reads and publishes the state for each IMU seperately
     I2CMux.openChannel(i);
     imu::Quaternion quat = bno[i].getQuat();
-    q.ID = i; // Identifies which sensor we are talking about
+    q.ID = i + 1; // Identifies which sensor we are talking about
     q.w = float(quat.w());
     q.x = float(quat.x());
     q.y = float(quat.y());
@@ -115,7 +124,7 @@ void stream_quat_bno()
         flag_was_disconnected = 1;
         lcd.clear();
         lcd.print("IMU ");
-        lcd.print(i);
+        lcd.print(i + 1);
         lcd.print(" disconnect");
       }
       bno[i] = Adafruit_BNO055(55, 0x28);
@@ -123,7 +132,7 @@ void stream_quat_bno()
       {
         lcd.clear();
         lcd.print("IMU ");
-        lcd.print(String(i));
+        lcd.print(String(i + 1));
         lcd.print(" is back!");
       }
     }
@@ -147,7 +156,7 @@ void load_calib_to_sensors()
   lcd.clear();
   lcd.print("Calibration IMU ");
   lcd.setCursor(0, 1);
-  lcd.print("Loading: /");
+  lcd.print("Loading:0/");
   lcd.print(n_bno);
 
   for (uint8_t i = 0; i < n_bno; i++)
@@ -155,14 +164,15 @@ void load_calib_to_sensors()
     // Read calibration
     adafruit_bno055_offsets_t calibData;
     int nb_params = 11;
-    String path = String("/calib/")+String(i);
-    String spots[nb_params] = {"/acc/x", "/acc/y", "/acc/z", "/mag/x", "/mag/y", 
-    "/mag/z", "/gyro/x", "/gysro/y", "/gyro/z", "/rad/acc", "/rad/mag"};
+    String path = String("/calib_saved/imu_") + String(i + 1);
+    String spots[nb_params] = {"/acc/x", "/acc/y", "/acc/z", "/mag/x", "/mag/y",
+                               "/mag/z", "/gyro/x", "/gyro/y", "/gyro/z", "/rad/acc", "/rad/mag"};
     int params[nb_params];
-    for(int p = 0; p < nb_params; p++){
-      String this_param_path = path+spots[p];
+    for (int p = 0; p < nb_params; p++)
+    {
+      String this_param_path = path + spots[p];
       char charBuf[50];
-      this_param_path.toCharArray(charBuf,50);
+      this_param_path.toCharArray(charBuf, 50);
       nh.getParam(charBuf, &params[p]);
     }
 
@@ -178,14 +188,14 @@ void load_calib_to_sensors()
     calibData.accel_radius = int16_t(params[9]);
     calibData.mag_radius = int16_t(params[10]);
 
-
-    // Push it to the sensor 
+    // Push it to the sensor
     I2CMux.openChannel(i);
     bno[i].setSensorOffsets(calibData);
     I2CMux.closeChannel(i);
 
-    lcd.setCursor(7, 1);
-    lcd.print(i);
+    lcd.setCursor(8, 1);
+    lcd.print(i+1);
+    delay(100);
   }
 }
 
@@ -232,15 +242,17 @@ void setup()
 
   // Sensors Setup
   nh.getParam("/imus/amount", &n_bno);
-  nh.getParam("/record/accelerometers", &stream_acc);
-  nh.getParam("/arduino/sampling_rate_ms", &sample_rate_ms);
+  nh.getParam("/my_rosbag/to_record/accelerometers", &stream_acc);
   nh.getParam("/calib/use_saved", &use_saved_calib);
+  nh.getParam("/calib/use_fast_mag", &fast_mag_calib);
 
   I2CMux.begin(Wire);
   I2CMux.closeAll(); // Set a base state which we know (also the default state on power on)
   setup_sensors();
   if (use_saved_calib)
+  {
     load_calib_to_sensors();
+  }
   lcd.print("IMUs reading ok!");
 }
 
@@ -267,7 +279,7 @@ void loop()
   if (!nh.connected())
   {
     while (!nh.connected())
-    { 
+    {
       flag_was_disconnected = 1;
       lcd.clear();
       lcd.print("Reconnect to ROS");
@@ -276,10 +288,10 @@ void loop()
     }
   }
 
-  while ((micros() - tStart) < (sample_rate_ms * 1000))
+  while ((micros() - tStart) < (DELAY_BETWEEN_SIGNALS_MS * 1000.0))
   {
     nh.spinOnce();
-    delay(10);
+    delay(50);
     // poll until the next sample is ready
   }
 }

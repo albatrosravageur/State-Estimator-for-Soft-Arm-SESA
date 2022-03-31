@@ -1,0 +1,24 @@
+allow_none: true
+arduino: {baud: 115200, boot: true, port: /dev/ttyACM0}
+arduino_use_yaml: true
+arm_length: 0.65
+arm_radius: 0.03
+calib: {calibrate_file: my_calib.yaml, saved_file: my_calib.yaml, use_saved: false}
+imus:
+  amount: 8
+  offset_quaternion: {w: -0.717, x: 0.717, y: 0, z: 0.0}
+  positions: [0.0, 0.0622, 0.1422, 0.2222, 0.3022, 0.3822, 0.4622, 0.5422, 0.6222]
+markers:
+  amount: 2
+  positions: [0.36, 0.6, 0, 0, 0, 0, 0, 0, 0]
+  radius: 0.04
+  show: true
+  use: true
+mode: calibrate
+my_rosbag:
+  to_play: {file: prev_saved_data_to_play.bag, rate: 1.0, start: 0.0}
+  to_record: {accelerometers: false, file: freshly_recorded_data.bag, markers: false,
+    quaternions: true}
+rviz_gui: false
+segments: [1, 4, 1, 4, 0, 2, 4, 2]
+source: no_source

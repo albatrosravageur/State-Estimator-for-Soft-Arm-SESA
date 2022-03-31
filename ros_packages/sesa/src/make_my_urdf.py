@@ -10,7 +10,7 @@ def make_my_urdf():
   imus = rospy.get_param('/imus')
   segments = rospy.get_param('/segments')
   markers = rospy.get_param('/markers')  
-  segments_radius = rospy.get_param('/segments_radius')
+  arm_radius = rospy.get_param('/arm_radius')
 
   f = open(package_path+'/rviz/myrobot.urdf.xacro', "w")
   f.write( """<?xml version="1.0"?>
@@ -34,7 +34,7 @@ def make_my_urdf():
   <link name="${child}">
     <visual>
       <geometry>
-            <cylinder radius=\"""" +str(segments_radius)+"""\" length="${leng}"/>
+            <cylinder radius=\"""" +str(arm_radius)+"""\" length="${leng}"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 ${leng/2}"/>
       <material name="${color}"/>
@@ -95,3 +95,4 @@ def make_my_urdf():
 
   f.write("</robot> \n")
   f.close()
+  return 1

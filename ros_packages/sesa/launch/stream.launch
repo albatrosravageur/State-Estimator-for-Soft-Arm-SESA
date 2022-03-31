@@ -1,6 +1,6 @@
 <launch>
   <!-- <<< GET ARGUMENTS >>>   <node name="setup_params" pkg="sesa" type="add_params.py" />  -->
-  <rosparam command="load" file="$(find sesa)/config/my_params.yaml" />
+  <rosparam command="load" file="$(find sesa)/config/my_config.yaml" />
 
 <!-- Configurates the RVIZ parameters and arguments -->
   <node name="urdf_maker" pkg="sesa" type="make_my_urdf.py" />
@@ -28,9 +28,9 @@
 
 
 
-  <!-- Node to publish the RPY values to RVIZ -->
+  <!-- Node to publish the RPY values to RVIZ 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
-
+-->
   <!-- Stream saved bags through rosbag -->
-  <node name="my_rosbag" pkg="rosbag" type="play" args="$(find sesa)/saved/bags/video_IROS_0.bag" />
+  <node name="my_rosbag" pkg="rosbag" type="play" args="$(find sesa)/bags/video_IROS_0.bag" /> 
 </launch>
