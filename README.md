@@ -5,7 +5,7 @@ This project aims at estimating the state of soft hyperredundant arms using Iner
 ## State estimation method
 To estimate the state of the arm, we sense its orientation at each IMU emplacement by reading the corresponding IMU. Then, we model the arm as a series of rigid bodies. Between each IMUs, the arm is cut into a number of rigid bodies set by the used. Each rigid body is oriented using spherical linear interpolation. 
 
-[Modeling of your soft arm](images/models.jpg)
+![Modeling of your soft arm](images/models.jpg)
 
 The state estimation method is based on the IROS 2022 paper: "A Proprioceptive Method for Soft Robots Using Inertial Measurement Units", by Yves J. Martin, Daniel Bruder and Robert J. Wood. Is is stored at the root of this Git repo. 
 
@@ -33,13 +33,17 @@ Note: we recommend to create your catkin workspace under the folder `home/[YOUR 
 ## Clone the repo
 Clone the repo to your `src/` folder:
 
-`cd ~/catkin_ws/src
-git clone https://github.com/albatrosravageur/State-Estimator-for-Soft-Arm-SESA`
+```
+cd ~/catkin_ws/src
+git clone https://github.com/albatrosravageur/State-Estimator-for-Soft-Arm-SESA
+```
 
 ## Make
-Use the catkin make command:
-`cd ~/catkin_ws
-catkin_make `https://github.com/albatrosravageur/State-Estimator-for-Soft-Arm-SESA``
+Make using the command:
+```
+cd ~/catkin_ws
+catkin_make
+```
 
 ## Wire up your hardware
 Your hardware circuit should look like on the following shematic.
@@ -51,7 +55,9 @@ Connect your board to your computer.
 
 ## Test time
 As a sanity check, try to run the firmware.
-`roslaunch sesa my_launch.launch`
+```
+roslaunch sesa my_launch.launch
+```
 
 A GUI should appear. Click "quit" to exit.
 
