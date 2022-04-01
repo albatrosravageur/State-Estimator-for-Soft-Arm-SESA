@@ -33,6 +33,7 @@ if __name__ == '__main__':
 
     source = rospy.get_param('/source')
     mode = rospy.get_param('/mode')
+
               
     # Load useful arguments for the launch
     arduino_boot = rospy.get_param('/arduino/boot')

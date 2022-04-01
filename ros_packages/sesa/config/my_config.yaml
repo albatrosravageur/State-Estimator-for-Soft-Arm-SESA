@@ -5,7 +5,7 @@ arm_length: 0.65
 arm_radius: 0.03
 base_orientation_quaternion: {w: 0, x: 0, y: 0, z: 1}
 calib: {calibrate_file: my_calib.yaml, saved_file: my_calib.yaml, use_fast_mag: true,
-  use_saved: true}
+  use_saved: true, id: 1}
 imus:
   amount: 1
   enabled: [true, true, true, true, true, true, true, true]

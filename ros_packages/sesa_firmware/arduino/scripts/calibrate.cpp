@@ -31,6 +31,9 @@ const int rs = 53, en = 49, d4 = 47, d5 = 45, d6 = 43, d7 = 41;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 bool flag_was_disconnected = 0;
 
+
+//#TODO #6 see param /calib/id
+
 void setup_sensors()
 // Initiate the connection with the bno*** sensors and configurates the axis map
 {

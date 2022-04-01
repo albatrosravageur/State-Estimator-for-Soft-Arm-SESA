@@ -303,12 +303,14 @@ def make_my_GUI():
     ui.calibration_saved_file.textChanged.connect(lambda:set_state(['calib','saved_file'], str(ui.calibration_saved_file.text())))
     ui.calibration_use_saved.stateChanged.connect(lambda:set_state(['calib','use_saved'], bool(ui.calibration_use_saved.isChecked())))
     ui.use_fast_mag_calib.stateChanged.connect(lambda:set_state(['calib','use_fast_mag'], bool(ui.use_fast_mag_calib.isChecked())))
+    ui.imu_calib_id.valueChanged.connect(lambda:set_state(['calib','id'], ui.imu_calib_id.value()))
 
     ui.calibrate_file.setText(get_state(['calib','calibrate_file']))
     ui.calibration_saved_file.setText(get_state(['calib','saved_file']))
     ui.calibration_use_saved.setChecked(get_state(['calib','use_saved']))
     ui.use_fast_mag_calib.setChecked(get_state(['calib','use_fast_mag']))
-
+    ui.imu_calib_id.setValue(get_state(['calib','id']))
+    
     # Show topics
     ui.topic_1.stateChanged.connect(lambda:set_state(['topics',str(ui.topic_1.text())],bool(ui.topic_1.isChecked())))
     ui.topic_2.stateChanged.connect(lambda:set_state(['topics',str(ui.topic_2.text())],bool(ui.topic_2.isChecked())))
