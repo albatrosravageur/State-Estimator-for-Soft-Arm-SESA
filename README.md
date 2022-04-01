@@ -21,13 +21,13 @@ The state estimation method is based on the IROS 2022 paper: "A Proprioceptive M
 - a potentiometer such as the PDB181-K220K-102B
 - a switch such as Mouser's 485-1478
 
-
 ## Key performances
 Using 8 IMUs and modeling the arm by 32 rigid bodies:
 - the package runs real-time on a P14s Lenovo i7 16Go RAM
 - the reading frequency of the IMUs is around 30Hz, but could be improved since the BNO055 output rate is 100Hz.
-- the experimentation described in the paper shows around 10% of accuracy if the arm has a piece-wise constant curvature behavior between the IMUs and if the maximum angle between two IMUs is $\frac{\pi}{2}$.
-
+- the experimentation described in the paper shows around 10% of accuracy if the arm has a piece-wise constant curvature behavior between the IMUs and if the maximum angle between two IMUs is ```math 
+\frac{\pi}{2}
+```.
 
 # Repo structure
 ## SESA Package
