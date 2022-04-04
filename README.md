@@ -88,6 +88,7 @@ Each IMU will be calibrated one by one.
 ```
 roslaunch sesa my_launch.launch
 ```
+A GUI should appear.
 
 ## Select a configuration using the GUI
 
