@@ -39,8 +39,8 @@ A Jupyter Notebook to evaluate the performance of this method w.r.t motion captu
 # Wire up your hardware
 Your hardware circuit should look like on the following shematic. Good pratise is to numberize your IMUs from 1 to 8. 
 
-#TODO #3 
-hardware setup
+![Circuit wiring](images/elec_sketch.jpg)
+
 
 Connect your board to your computer.
 
