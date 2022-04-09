@@ -32,12 +32,13 @@ def callback_quat(data):
     Q[data.ID] = quaternion_multiply([data.x,data.y,data.z,data.w], [base_quat['x'], base_quat['y'], base_quat['z'], base_quat['w']])
 
     this_joint, next_joint = np.array([0,0,0], dtype=float) , np.array([0,0,0], dtype=float)
-    marker_iter = 0
+    marker_iter, imu_iter_for_output = 0, 0
 
     for imu in imus['list']:
         #TODO #2
+        imu_iter_for_output += 1
         this_imu, prev_imu = imu, imus['list'][imus['list'].index(imu)-1] if imus['list'].index(imu) else 0
-        q0, q1  = Q[this_imu], Q[imu+1]
+        q0, q1  = Q[prev_imu], Q[this_imu]
 
         for segment in range(segments[this_imu-1]):
             segment_length = (imus['positions'][this_imu]-imus['positions'][prev_imu])/segments[this_imu-1]
@@ -54,7 +55,7 @@ def callback_quat(data):
             next_joint = this_joint + segment_length*rot_mat_3rd_column
                 
             # Send the transform 
-            target_ID = str(this_imu+1)+str(segment+1)
+            target_ID = str(imu_iter_for_output)+str(segment+1)
             b.sendTransform(this_joint, qt, Time.now(), target_ID, 'base_link')
 
             # Save MoCap marker position

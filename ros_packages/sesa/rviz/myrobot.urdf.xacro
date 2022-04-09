@@ -55,12 +55,20 @@
   </joint> 
   </xacro:macro>
 
-  <xacro:addSegment parent="base_link" child="11" color="black" leng="0.0622"/> 
-<xacro:addSegment parent="base_link" child="21" color="purple" leng="0.08"/> 
-<xacro:addSegment parent="base_link" child="31" color="black" leng="0.08"/> 
+  <xacro:addSegment parent="base_link" child="11" color="black" leng="0.01555"/> 
+<xacro:addSegment parent="base_link" child="12" color="black" leng="0.01555"/> 
+<xacro:addSegment parent="base_link" child="13" color="black" leng="0.01555"/> 
+<xacro:addSegment parent="base_link" child="14" color="black" leng="0.01555"/> 
+<xacro:addSegment parent="base_link" child="21" color="purple" leng="0.02"/> 
+<xacro:addSegment parent="base_link" child="22" color="purple" leng="0.02"/> 
+<xacro:addSegment parent="base_link" child="23" color="purple" leng="0.02"/> 
+<xacro:addSegment parent="base_link" child="24" color="purple" leng="0.02"/> 
+<xacro:addSegment parent="base_link" child="31" color="black" leng="0.02"/> 
+<xacro:addSegment parent="base_link" child="32" color="black" leng="0.02"/> 
+<xacro:addSegment parent="base_link" child="33" color="black" leng="0.02"/> 
+<xacro:addSegment parent="base_link" child="34" color="black" leng="0.02"/> 
 <xacro:addSegment parent="base_link" child="41" color="purple" leng="0.08"/> 
-<xacro:addSegment parent="base_link" child="61" color="purple" leng="0.08"/> 
-<xacro:addSegment parent="base_link" child="71" color="black" leng="0.08"/> 
-<xacro:addSegment parent="base_link" child="81" color="purple" leng="0.08"/> 
 
+<xacro:addMarker name='marker_0'/> 
+<xacro:addMarker name='marker_1'/> 
 </robot> 

@@ -281,7 +281,7 @@ class Ui_MainWindow(object):
         self.label_19.setObjectName(_fromUtf8("label_19"))
         self.grid_imu.addWidget(self.label_19, 0, 1, 1, 1)
         self.gridLayoutWidget_2 = QtGui.QWidget(self.centralwidget)
-        self.gridLayoutWidget_2.setGeometry(QtCore.QRect(320, 80, 187, 317))
+        self.gridLayoutWidget_2.setGeometry(QtCore.QRect(320, 80, 161, 317))
         self.gridLayoutWidget_2.setObjectName(_fromUtf8("gridLayoutWidget_2"))
         self.grid_marker = QtGui.QGridLayout(self.gridLayoutWidget_2)
         self.grid_marker.setMargin(0)

@@ -24,12 +24,11 @@ if __name__ == '__main__':
     # Setup parameters
     imus = rospy.get_param('/imus')
     rospy.set_param('/imus/amount', sum(imus['enabled']))
-    rospy.set_param('/imus/ids', [x+1 for x in range(8) if imus['enabled'][x]])
+    rospy.set_param('/imus/list', [x+1 for x in range(8) if imus['enabled'][x]])
 
 
     markers = rospy.get_param('/markers')
     rospy.set_param('/markers/use',bool(sum(markers['enabled'])))
-    rospy.set_param('/markers/ids', [x+1 for x in range(8) if markers['enabled'][x]])
 
     source = rospy.get_param('/source')
     mode = rospy.get_param('/mode')

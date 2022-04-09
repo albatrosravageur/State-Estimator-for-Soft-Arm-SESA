@@ -214,8 +214,8 @@ def make_my_GUI():
     ui.seg_7.setValue(get_state_in_list(['segments'],6))
     ui.seg_8.setValue(get_state_in_list(['segments'],7))
     ##Markers
-    ui.N_Markers.valueChanged.connect(lambda:set_state(['markers','amount'],  ui.arm_radius.value()))
-    ui.N_Markers.setValue(get_state(['markers','amount']))
+    ui.N_Markers.valueChanged.connect(lambda:set_state(['markers','amount'],  ui.N_Markers.value()))
+    ui.N_Markers.setValue(int(get_state(['markers','amount'])))
     ui.marker_1.valueChanged.connect(lambda:set_state_in_list(['markers','positions'], ui.marker_1.value(),0))
     ui.marker_2.valueChanged.connect(lambda:set_state_in_list(['markers','positions'], ui.marker_2.value(),1))
     ui.marker_3.valueChanged.connect(lambda:set_state_in_list(['markers','positions'], ui.marker_3.value(),2))
