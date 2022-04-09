@@ -39,8 +39,8 @@ A Jupyter Notebook to evaluate the performance of this method w.r.t motion captu
 # Wire up your hardware
 Your hardware circuit should look like on the following shematic. Good pratise is to numberize your IMUs from 1 to 8. 
 
-#TODO #3 
-hardware setup
+![Circuit wiring](images/elec_sketch.png)
+
 
 Connect your board to your computer.
 
@@ -88,6 +88,7 @@ Each IMU will be calibrated one by one.
 ```
 roslaunch sesa my_launch.launch
 ```
+A GUI should appear.
 
 ## Select a configuration using the GUI
 
