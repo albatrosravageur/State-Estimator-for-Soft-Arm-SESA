@@ -28,8 +28,11 @@ def callback_quat(data):
 
     # IMU re-orientation to fit their placement along the arm
     global Q
-    base_quat = rospy.get_param('imus/offset_quaternion')
-    Q[data.ID] = quaternion_multiply([data.x,data.y,data.z,data.w], [base_quat['x'], base_quat['y'], base_quat['z'], base_quat['w']])
+    reorientation_quaternion = rospy.get_param('imus/offset_quaternion')
+    Q[data.ID] = quaternion_multiply([data.x,data.y,data.z,data.w], [reorientation_quaternion['x'],
+                                                                     reorientation_quaternion['y'],
+                                                                     reorientation_quaternion['z'],
+                                                                     reorientation_quaternion['w']])
 
     this_joint, next_joint = np.array([0,0,0], dtype=float) , np.array([0,0,0], dtype=float)
     marker_iter, imu_iter_for_output = 0, 0
