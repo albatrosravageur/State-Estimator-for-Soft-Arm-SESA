@@ -140,17 +140,17 @@ This node is started if `mode` is `stream`. It streams the quaternions from `/qu
 
 ### Parameters used
 - imus
- - amount
- - enabled
- - offset_quaternion
- - positions
+  - amount
+  - enabled
+  - offset_quaternion
+  - positions
 - markers
- - amount
- - enabled
- - positions
- - radius
- - show
- - use
+  - amount
+  - enabled
+  - positions
+  - radius
+  - show
+  - use
 - segments
 - rviz_gui
 
