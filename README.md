@@ -160,10 +160,10 @@ This node is started if `mode` is `calibrate`. It streams the calibration state 
 The node is written in /sripts/sesa/save_calibration.py
 
 ### Parameters used
-* calib
- * calibrate_file
- * id
- * use_fast_mag
+- calib
+  - calibrate_file
+  - id
+  - use_fast_mag
 
 ## ROS Serial Arduino
 ### About 
@@ -171,8 +171,8 @@ This node is started if `source` is `arduino`. If `mode` is `calibration`, `sour
 
 ### Parameters used
 - Arduino
- - baud
- - port
+  - baud
+  - port
 
 ## Visualization (RVIZ)
 ### About
@@ -187,10 +187,10 @@ This node is started if `source` is `rosbag` and `mode` is `stream`. It is based
 
 ### Parameters used
 - my_rosbag
- - to_play
-  - file
-  - rate
-  - start
+  - to_play
+     - file
+     - rate
+     - start
 
 ## My rosbag record
 ### About
@@ -198,11 +198,11 @@ This node is started if `source` is `arduino` and `mode` is `stream`. It is base
 
 ### Parameters used
 - my_rosbag
- -- to_record
-  --- file
-  --- accelerometers (bool)
-  --- markers (bool)
-  --- quaternions (bool)
+  - to_record
+    - file
+    - accelerometers (bool)
+    - markers (bool)
+    - quaternions (bool)
 
 # Launch process
 The ROS package SESA is launch through a unique launch file, called `my_launch.launch`. A specific configuration file can be used, and then must be entered as an argument through the command line when launching the package, as shown below. The configuration file must be in the `/config` folder.
