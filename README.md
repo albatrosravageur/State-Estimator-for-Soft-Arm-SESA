@@ -238,8 +238,26 @@ The markers correspond to points that you want to track along the arm. For examp
   - Arm radius: the radius of the arm in m.
 
 ## Visualization
+This part contains parameters for the visualization RVIZ of the soft arm state estimation.
+- show RVIZ: show or not the arm estimation through the RVIZ package
+- show markers: show or not the markers on the RVIZ interface
+- markers size for RVIZ: the markers are represented by green balls, whose radius can be set in meters there. 
 
+## Rostopic echo
+If you tick the box, the package will open a new terminal and echo the topic.
 
+## Arduino
+This part contains parameters related to the Arduino board. 
+- Boot: tick this box to push the firmware corresponding to the selected mode to a connected Arduino Mega 2560 board. 
+- Baud: the baud rate that you want to use to connect to the board. IMPORTANT: if you change the baud rate on the GUI, YOU ALSO NEED TO CHANGE IT ON THE FIRMWARE. The firmware is stored in `/ros_packages/sesa_firmware/arduino/scripts/`.
+- Port: the port on which the board is connected. 
+
+## My Rosbag
+### Play
+This part contains settings to read recorded quaternions from a stored .bsg file and to publish them to `/quat_meas`.
+- file: the .bag file stored in `/ros_packages/sesa/saved/bags/` to read
+- rate: the reading rate (publication speed w.r.t the recorded speed).
+- start: the time at which to start in seconds.
 
 
 If `calib/use_saved`, launch reads the file `calib/saved_file` and pushes it to the `rosparam`. If the 
