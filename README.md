@@ -213,6 +213,7 @@ roslaunch sesa my_launch.launch config_file:="[YOUR CONFIG FILE NAME]"
 ```
 
 Then, the following GUI appear:
+![GUI](images/GUI.png)
 
 If `calib/use_saved`, launch reads the file `calib/saved_file` and pushes it to the `rosparam`. If the 
 
