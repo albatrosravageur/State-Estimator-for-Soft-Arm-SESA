@@ -219,13 +219,23 @@ Through this GUI, the user can change the configuration to fit the needs of its 
 
 - Main parameters:
   - IMU source: can be `arduino`, `rosbag` or `no source`, corresponds to the source for the quaternion stream publiscation in `/quat_meas`. If `arduino`, the ROS Arduino node will be launched and the arduino board will stream the IMUs. If `rosbag`, the source will stream the bag described in the part My Rosbag/Play. If `no source`, the package assumes that an external package will publish to the topic `/quat_meas`.  
-  - Mode: `stream` or `calibrate`. If mode is `stream`, the package will read the topic `/quat_meas` and estimate the state of the soft arm described in the part "Modeling". If the mode is `calibrate`, the package will read the calibration state published in `rosparam` by the Arduino board, and save it into the file indicated under ther "Calibrate an IMU" title.
+  - Mode: `stream` or `calibrate`. If mode is `stream`, the package will read the topic `/quat_meas` and estimate the state of the soft arm described in the part "Modeling". If the mode is `calibrate`, the package will read the calibration state published in `rosparam` by the Arduino board, and save it into the file indicated under ther "Calibrate an IMU" title. When changing the mode, you MUST tick the "Boot" option on the Arduino panel to update the firmware on the board.
  
-- Modeling
+- Modeling 
+  - IMUs
 This part decribes what your robot is like, and how you want to model it. This package models soft arms by rigid-bodies, see the part II-B of roprioceptive_Methods_for_Soft_Robots_using_Inertial_Measurement_Units.pdf at the root of this repo for more information. The IMU # corresponds to 1+ the # of the port of the IMU on the I2C MUX. For example, if your IMU is plugged in the port 1 on the I2C MUX, it corresponds to 2 on the GUI and on any output of the package. 
-  - position: the position of the IMU along the arm, starting by where you place your origin (usually, the base of your arm). Posiitons must be sorted increasingly.
-  - # of segments: the number of rigid bodies by whose you want to model the arm between this IMU and the previous one. In the specific case of the IMU 1, it corresponds to the distance between the base and the IMU 1. 
-  - enable (the checkboxes on the right): whether this IMU is used or npt. For example, if you use 5 IMUs on your experiment, you should have 5 checkboxes ticked.
+    - position: the position of the IMU along the arm, starting by where you place your origin (usually, the base of your arm). Posiitons must be sorted increasingly.
+    - # of segments: the number of rigid bodies by whose you want to model the arm between this IMU and the previous one. In the specific case of the IMU 1, it corresponds to the distance between the base and the IMU 1. 
+    - enable (the checkboxes on the right): whether this IMU is used or npt. For example, if you use 5 IMUs on your experiment, you should have 5 checkboxes ticked.
+
+  - Markers
+The markers correspond to points that you want to track along the arm. For example, if you wanted to test the accuracy of this state estimation method, you would write the position of your markers in this column.
+    - position: the position of the markkers. You need to fill them from the top to the bottom, and to sort them by increasing order. 
+    - # of markers: the overall amount of markers that you want to use.
+
+  - Re-orientation for IMUs quaternions: every quaternion read by the estimator will be multiplied by the left by this quaternion. The goal is to place the IMU with the most convenient orientation along the arm, and then you mathematically reorientate it. To do this, the reorientation quaternion must be the [conjugate](https://en.wikipedia.org/wiki/Quaternion#Conjugation,_the_norm,_and_reciprocal) of the quaternion that you sense when your IMU is fixed on your soft arm and that this arm is standing straight.
+  - Arm length: the length of the arm's spine in m.
+  - Arm radius: the radius of the arm in m.
 
 
 If `calib/use_saved`, launch reads the file `calib/saved_file` and pushes it to the `rosparam`. If the 
