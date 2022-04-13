@@ -218,8 +218,9 @@ Then, the following GUI appear:
 Through this GUI, the user can change the configuration to fit the needs of its experiments. Here is a review of the different parameters that can be set through the GUI and how they could help you using this package.
 
 - Main parameters:
-  - IMU source: can be `arduino`, `rosbag` or `no source`, corresponds to the source for the quaternion stream publiscation in `/quat_meas`. If `arduino`, the ROS Arduino node will be launched and the arduino board will stream the IMUs. If `rosbag`, the source will stream the bag shown 
-   
+  - IMU source: can be `arduino`, `rosbag` or `no source`, corresponds to the source for the quaternion stream publiscation in `/quat_meas`. If `arduino`, the ROS Arduino node will be launched and the arduino board will stream the IMUs. If `rosbag`, the source will stream the bag described in the part My Rosbag/Play. If `no source`, the package assumes that an external package will publish to the topic `/quat_meas`.  
+  - Mode: `stream` or `calibrate`. If mode is `stream`, the package will read the topic `/quat_meas` and estimate the state of the soft arm described in the part "Modeling". If the mode is `calibrate`, the package will read the calibration state published in `rosparam` by the Arduino board, and save it into the file indicated under ther "Calibrate an IMU" title.
+ 
 
 If `calib/use_saved`, launch reads the file `calib/saved_file` and pushes it to the `rosparam`. If the 
 
