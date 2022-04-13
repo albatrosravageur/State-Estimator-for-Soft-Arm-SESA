@@ -198,11 +198,11 @@ This node is started if `source` is `arduino` and `mode` is `stream`. It is base
 
 ### Parameters used
 - my_rosbag
- - to_record
-  - file
-  - accelerometers (bool)
-  - markers (bool)
-  - quaternions (bool)
+ -- to_record
+  --- file
+  --- accelerometers (bool)
+  --- markers (bool)
+  --- quaternions (bool)
 
 # Launch process
 The ROS package SESA is launch through a unique launch file, called `my_launch.launch`. A specific configuration file can be used, and then must be entered as an argument through the command line when launching the package, as shown below. The configuration file must be in the `/config` folder.
