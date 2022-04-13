@@ -225,7 +225,7 @@ Through this GUI, the user can change the configuration to fit the needs of its 
   - IMUs
 This part decribes what your robot is like, and how you want to model it. This package models soft arms by rigid-bodies, see the part II-B of roprioceptive_Methods_for_Soft_Robots_using_Inertial_Measurement_Units.pdf at the root of this repo for more information. The IMU # corresponds to 1+ the # of the port of the IMU on the I2C MUX. For example, if your IMU is plugged in the port 1 on the I2C MUX, it corresponds to 2 on the GUI and on any output of the package. 
     - position: the position of the IMU along the arm, starting by where you place your origin (usually, the base of your arm). Posiitons must be sorted increasingly.
-    - # of segments: the number of rigid bodies by whose you want to model the arm between this IMU and the previous one. In the specific case of the IMU 1, it corresponds to the distance between the base and the IMU 1. 
+    - \# of segments: the number of rigid bodies by whose you want to model the arm between this IMU and the previous one. In the specific case of the IMU 1, it corresponds to the distance between the base and the IMU 1. 
     - enable (the checkboxes on the right): whether this IMU is used or npt. For example, if you use 5 IMUs on your experiment, you should have 5 checkboxes ticked.
 
   - Markers
