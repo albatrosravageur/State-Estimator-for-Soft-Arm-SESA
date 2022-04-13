@@ -215,6 +215,11 @@ roslaunch sesa my_launch.launch config_file:="[YOUR CONFIG FILE NAME]"
 Then, the following GUI appear:
 ![GUI](images/GUI.png)
 
+Through this GUI, the user can change the configuration to fit the needs of its experiments. Here is a review of the different parameters that can be set through the GUI and how they could help you using this package.
+
+- Main parameters:
+   
+
 If `calib/use_saved`, launch reads the file `calib/saved_file` and pushes it to the `rosparam`. If the 
 
 
