@@ -127,6 +127,8 @@ Hold your IMU in different positions such as shown on this figure.
 
 # TODO streaming
 
+
+
 # Nodes
 These nodes are different blocks of the package. The code is modular and adapts to the need of the user: when the user launches the GUI, it can select such or such parameters. This parameters selection is saved as a configuration file, then pushed to `rosparam`. The nodes are launched depending on the configuration, and uses its parameters to run. For example, the user can set the parameter `source` to `arduino`, and then the ROS Serial Arduino node is started. If `source` is set to `rosbag`, the My Rosbag Play node will be launched and will play the file `/my_rosbag/to_play/file`, with a rate `/my_rosbag/to_play/rate` and starting at time `rosbag/to_play/start`.
 
@@ -179,13 +181,39 @@ This node is started if `rviz_gui` is true and if `mode` is `stream`. The ROS pa
 ### Parameters used
 - robot_description
 
+## My rosbag play
+### About
+This node is started if `source` is `rosbag` and `mode` is `stream`. It is based on the ROS Package `rosbag` and it plays the quaternions stream of a previously recorded experiment into the `/quat_meas` topic from the file `/my_rosbag/to_play/file`. 
+
+### Parameters used
+- my_rosbag
+ - to_play
+  - file
+  - rate
+  - start
+
 ## My rosbag record
-This node is started if `source` is `rosbag` and `mode` is `stream`. It is based on the ROS Package `rosbag` and it plays the quaternions stream of a previously recorded experiment into the `/quat_meas` topic. 
+### About
+This node is started if `source` is `arduino` and `mode` is `stream`. It is based on the ROS Package `rosbag` and it records the quaternions stream of the `/quat_meas` topic into a file `/my_rosbag/to_record/file`. 
 
+### Parameters used
+- my_rosbag
+ - to_record
+  - file
+  - accelerometers (bool)
+  - markers (bool)
+  - quaternions (bool)
 
+# Launch process
+The ROS package SESA is launch through a unique launch file, called `my_launch.launch`. A specific configuration file can be used, and then must be entered as an argument through the command line when launching the package, as shown below. The configuration file must be in the `/config` folder.
 
+```
+cd ~/catkin_ws
+roslaunch sesa my_launch.launch config_file:="[YOUR CONFIG FILE NAME]"
+```
 
-## Launch
+Then, the following GUI appear:
+
 If `calib/use_saved`, launch reads the file `calib/saved_file` and pushes it to the `rosparam`. If the 
 
 
