@@ -160,10 +160,10 @@ This node is started if `mode` is `calibrate`. It streams the calibration state 
 The node is written in /sripts/sesa/save_calibration.py
 
 ### Parameters used
-- calib
- - calibrate_file
- - id
- - use_fast_mag
+* calib
+ * calibrate_file
+ * id
+ * use_fast_mag
 
 ## ROS Serial Arduino
 ### About 
