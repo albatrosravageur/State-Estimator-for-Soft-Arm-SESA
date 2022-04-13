@@ -218,6 +218,7 @@ Then, the following GUI appear:
 Through this GUI, the user can change the configuration to fit the needs of its experiments. Here is a review of the different parameters that can be set through the GUI and how they could help you using this package.
 
 - Main parameters:
+  - IMU source: can be `arduino`, `rosbag` or `no source`, corresponds to the source for the quaternion stream publiscation in `/quat_meas`. If `arduino`, the ROS Arduino node will be launched and the arduino board will stream the IMUs. If `rosbag`, the source will stream the bag shown 
    
 
 If `calib/use_saved`, launch reads the file `calib/saved_file` and pushes it to the `rosparam`. If the 
