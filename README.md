@@ -125,5 +125,75 @@ Draw an 8 in the air like shown on this figure.
 Hold your IMU in different positions such as shown on this figure. 
 ![Calibrate accelerometer](images/accelerometer.png)
 
-streaming
+# TODO streaming
+
+# Nodes
+These nodes are different blocks of the package. The code is modular and adapts to the need of the user: when the user launches the GUI, it can select such or such parameters. This parameters selection is saved as a configuration file, then pushed to `rosparam`. The nodes are launched depending on the configuration, and uses its parameters to run. For example, the user can set the parameter `source` to `arduino`, and then the ROS Serial Arduino node is started. If `source` is set to `rosbag`, the My Rosbag Play node will be launched and will play the file `/my_rosbag/to_play/file`, with a rate `/my_rosbag/to_play/rate` and starting at time `rosbag/to_play/start`.
+
+The nodes here will be described in detail one by one. The estimator models the imu using the quaternions measurements. The save calibration node saves the calibration state pushed to the parameters by the Arduino board. 
+
+## Estimator
+### About
+This node is started if `mode` is `stream`. It streams the quaternions from `/quat_meas`. If `rviz_gui` is true, estimator publishes to `/robot_state_publisher` the state of the robot, showing the markers positions with green balls. If `topic/markers` is true, estimator publishes the markers positions on `/markers`. The node is written in /sripts/sesa/estimator.py.
+
+### Parameters used
+- imus
+ - amount
+ - enabled
+ - offset_quaternion
+ - positions
+- markers
+ - amount
+ - enabled
+ - positions
+ - radius
+ - show
+ - use
+- segments
+- rviz_gui
+
+## Save calibration
+### About 
+This node is started if `mode` is `calibrate`. It streams the calibration state pushed in the parameters by the arduino board, and saves it to the file `calib/calibrate_file`.
+The node is written in /sripts/sesa/save_calibration.py
+
+### Parameters used
+- calib
+ - calibrate_file
+ - id
+ - use_fast_mag
+
+## ROS Serial Arduino
+### About 
+This node is started if `source` is `arduino`. If `mode` is `calibration`, `source` is automatically set to `arduino`. This node handles the Serial communication with the Arduino board. This node is using the `serial_node.py` script of the public `rosserial_arduino` package.
+
+### Parameters used
+- Arduino
+ - baud
+ - port
+
+## Visualization (RVIZ)
+### About
+This node is started if `rviz_gui` is true and if `mode` is `stream`. The ROS package `rviz` is launched and displays the arm state in real time through a visual interface. It uses the robot description `/robot_description`  created under the urdf format using the source file `/src/make_my_urdf.py` during the launch.
+
+### Parameters used
+- robot_description
+
+## My rosbag record
+This node is started if `source` is `rosbag` and `mode` is `stream`. It is based on the ROS Package `rosbag` and it plays the quaternions stream of a previously recorded experiment into the `/quat_meas` topic. 
+
+
+
+
+## Launch
+If `calib/use_saved`, launch reads the file `calib/saved_file` and pushes it to the `rosparam`. If the 
+
+
+
+
+
+
+
+
+
 
