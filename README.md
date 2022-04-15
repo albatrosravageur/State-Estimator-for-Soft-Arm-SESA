@@ -253,18 +253,22 @@ This part contains parameters related to the Arduino board.
 - Port: the port on which the board is connected. 
 
 ## My Rosbag
+My rosbag can be used in `stream` mode only. The play part can only be used if the source is `rosbag`.
 ### Play
-This part contains settings to read recorded quaternions from a stored .bsg file and to publish them to `/quat_meas`.
+This part contains parameters to read recorded quaternions from a stored .bsg file and to publish them to `/quat_meas`.
 - file: the .bag file stored in `/ros_packages/sesa/saved/bags/` to read
 - rate: the reading rate (publication speed w.r.t the recorded speed).
 - start: the time at which to start in seconds.
 
+### Record
+This part contains parameters to record a stream of quaternions, accelerometers and markers. 
+- file: the name of the .bag to which the data should be saved. This bag is stored in `/ros_packages/sesa/saved/bags/`.
+- Orientations: record orientation, i.e the `/quat_meas` topic.
+- Accelerometers: record accelerometers, i.e the `/acc_meas` topic.
+- Markers: record markers, i.e the `/markers` topic.
+
 
 If `calib/use_saved`, launch reads the file `calib/saved_file` and pushes it to the `rosparam`. If the 
-
-
-
-
 
 
 
