@@ -24,8 +24,7 @@ Adafruit_BNO055 bno[N_IMU_MAX];           // Handlers of the bno*** sensors
 // ROS RELATED
 ros::NodeHandle_<ArduinoHardware, 3, 3, 2048, 2048> nh; // Node handler for ROS
 sesa::calib c;                                 // Variable to publish calibration
-ros::Publisher calib_pub("/
-", &c);            // ROS Publisher
+ros::Publisher calib_pub("/calib_meas", &c);            // ROS Publisher
 
 // LCD or button related
 const int rs = 53, en = 49, d4 = 47, d5 = 45, d6 = 43, d7 = 41;
