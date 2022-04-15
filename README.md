@@ -267,8 +267,17 @@ This part contains parameters to record a stream of quaternions, accelerometers 
 - Accelerometers: record accelerometers, i.e the `/acc_meas` topic.
 - Markers: record markers, i.e the `/markers` topic.
 
+## Calibration 
+This part contain parameters to calibrate your IMUs, and to load a previous calibration to your IMUs. 
+### Calibrate an IMU
+This part can only be used in `calibration` mode. 
+- IMU identifier: the \# of the IMU that you want to calibrate. This corresponds to 1+the \# of the port on the I2C MUX.
+- File: the file to which to want to add the calibration for this IMU. A file contains calibrations for the 8 IMUs. When the `calibration` mode is used, only the calibration corresponding to your IMU number is modified. If you want to calibrate all of your IMUs and to save it into the same file, you need to keep the same file and just to change the IMU number as you calibrate all of your IMUs.
 
-If `calib/use_saved`, launch reads the file `calib/saved_file` and pushes it to the `rosparam`. If the 
+### Use previous calibration
+This part helps you load a previous calibration into the IMUs. This is useful since there's no EEPROM on the IMUs, so the calibration isn't saved as you unplug the IMUs. Plus, calibration takes a while. 
+- Load calibration: load calibration into `rosparam`. Arduino will read it from there.
+- file: the file you want to load calibration from. It has to be stored in `/ros_packages/sesa/calibs/`.
 
 
 
