@@ -130,9 +130,7 @@ Hold your IMU in different positions such as shown on this figure.
 
 
 # Nodes
-The nodes are launched depending on the configuration, and uses the configuration to run.
-
-The code is modular and adapts to the need of the user: when the user launches the GUI, they can select such or such parameters. This parameters selection is saved as a configuration file, then pushed to `rosparam`.
+Depending on the configuration entered by the user in the GUI, the nodes are launched or not. The nodes use the configuration as an input. Therefore, the code is modular and adapts to the need of the user. The configuration is saved as a configuration file, then pushed to `rosparam`.
 
 For example, the user can set the parameter `source` to `arduino`, and then the ROS Serial Arduino node is started. If `source` is set to `rosbag`, the My Rosbag Play node will be launched and will play the file `/my_rosbag/to_play/file`, with a rate `/my_rosbag/to_play/rate` and starting at time `rosbag/to_play/start`.
 
