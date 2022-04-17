@@ -1,5 +1,5 @@
 # About
-This package compiles Arduino and loads it to an Arduino Mega 2560. The package use the generate_arduino_firmware() function from the rosserial_arduino package. A tutorial can be found here: http://wiki.ros.org/rosserial_arduino/Tutorials/CMake
+This package compiles the Arduino code using the Aruidno IDE kernel and loads it to an Arduino Mega 2560. The package use the generate_arduino_firmware() function from the rosserial_arduino package. A tutorial can be found here: http://wiki.ros.org/rosserial_arduino/Tutorials/CMake
 
 Some constants are based on my custom electronic schematics. Please check the electronics shematics below to use correctly the code.
 
