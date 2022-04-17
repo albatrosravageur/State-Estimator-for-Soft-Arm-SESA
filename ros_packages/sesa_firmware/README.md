@@ -8,7 +8,6 @@ This project has 2 possible firmwares:
     - *stream*, the plug and play firmware. This firmare streams the IMU data. 
         The IMU is set in NDOF mode, which auto-calibrate across time using the embedded firmware of BNO055 (Fast Magnetometer calibration).
         If the parameter `calib/use_saved`  is true, the firmware loads a pre-recorded calibration `calib/saved_file` saved in `calib/saved_path`.
-
     - *calibrate*. This firmware streams the calibration state. This ROS package can save the stream calibration data into a local file throught the `save_calibration.py` script.
 
 # How to compile and load the firmware to Arduino
