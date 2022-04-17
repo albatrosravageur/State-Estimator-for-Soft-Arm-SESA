@@ -24,4 +24,4 @@ $ catkin_make sesa_firmware_arduino_calibrate-upload
 ```
 
 # Electronics schematics
-![Electronics](images/elec_sketch.png)
+[Electronics](images/elec_sketch.png)
