@@ -1,0 +1,72 @@
+\section{Experiments}   \label{sec:experiments}
+
+\subsection{Description of continuum arm}
+
+To validate the IMU-based modeling approach presented in Section~\ref{sec:methods}, we constructed a soft continuum arm and outfitted it with IMU sensors.
+The arm is a cylinder of silicon (Smooth Sil 945) with a diameter of 25mm and of length 660mm. 
+The structure is purely passive, it does not have any actuators.
+Eight IMUs (bno055 Bosch) were evenly spaced along the length of the arm and fixed in place with screws into flat slots on the arm.
+We selected this geometry to make the arm as flexible as possible while accommodating the 25x20mm footprint of the IMU breakout boards and allowing them to be spaced 80-100mm apart. Empirically, this spacing permits a maximum angle of $\pi/2$ between adjacent IMUs.
+The update frequency of the IMUs is 31Hz, and they are read by an Arduino Mega 2560 using an I2C channel and an I2C multiplexer.
+Two motion capture markers were fixed to the arm at lengths $M_1=360$mm and $M_2=600$mm.
+There was only two motion capture markers because when we tried to use a higher density of markers, the motion capture system would mix up the markers.
+The motion capture system (Vicon) has a precision of 1mm and an update frequency of 100Hz.
+
+\subsection{Validation experiments: Motion capture vs. IMU model}
+% \subsubsection{Outline of the validation experiments}
+To evaluate the accuracy of our models, motion capture is used as ground truth.
+While the arm is moved, measurements from the IMUs and the motion capture system are recorded. The IMU data is then used to construct models according to Section \ref{sec:methods} offline.
+The positions of the motion capture markers are estimated from the models and compared to the actual positions recorded by the motion capture system.
+In all experiments, error is defined as the Cartesian distance between the estimated positions of the motion capture markers and their actual positions.
+To evaluate how model performance is affected by the density of IMUs along the arm, both models are constructed using the data from two, four, and eight IMUs.
+
+
+\subsubsection{Rigid-body model experiment}
+The rigid-body model is implemented using two, four, and eight IMUs (and thus with an equivalent number of segments). The position of the IMUs along the arm are shown in Table~\ref{tab:which IMUs}.
+We set $L_0 = 0$mm since the first segment of length $L_0$ (see Fig \ref{models}) empirically induces a vertical error offset. 
+When using two and four IMUs, the length of the arm can be divided into two and four equal sections, respectively, with an IMU mounted to the midpoint of each section.
+For eight IMUs, when the length of the arm is divided into 8 equal sections, the segmentation is made such that the IMUs lie at the endpoints of the sections instead of the center due to their physical spacing.
+
+\subsubsection{PCC-extended rigid-body model experiment}
+
+The PCC-extended rigid-body model is tested w.r.t. two variables: the number of segments, and the number of IMUs.
+First, we fixed the number of IMUs to the maximum, i.e. eight IMUs, and used 8, 16, 32, and 64 segments. 
+Results shown in Fig.~\ref{fig:plateau} suggests that 16 segments are sufficient to approximate the maximum curvature exhibited by our arm.
+% We interpret this as PCC model is approximated well enough by 16 sub-segments overall for the maximum curvature and the length of this arm. 
+To explore the impact of the number of IMUs on pose estimation accuracy, we generated a 16 segments model using data from two, four, and eight IMUs.
+% fixed the number of segments to 16 and we used 2, 4 and 8 IMUs to generate a 16 segment model.
+The position of the IMUs used along the arm are shown in Table~\ref{tab:which IMUs}. Results shown in Fig.~\ref{fig:err_pcc16_model} indicate that even for the same number of segments (i.e., 16), the error decreases as the number of IMUs increases.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|c|c|m{9pt}|m{9pt}|m{9pt}|m{9pt}|m{9pt}|m{9pt}|m{9pt}|m{9pt}|}
+        \hline
+        IMU \# & Base* & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8  \\
+        \hline
+        \hline
+        pos [mm] & 0 & 80 & 160 & 240 & 320 & 400 & 480 & 560 & 640 \\
+        \hline
+        2 IMUs & E &  & R &  & E &  & R &  & E \\
+        \hline
+        4 IMUs & E &  & X &  & X &  & X &  & X \\
+         \hline
+        8 IMUs & E & X  & X & X & X & X & X & X & X \\
+        \hline       
+    \end{tabular}
+    \caption{This table shows which IMUs are selected for a given number of IMUs used to feed each model. Pos corresponds to the position of the IMU along the arm. ``R" stands for ``rigid-body only", ``E" stands for ``PCC-extended rigid-body model only", and ``X" stands for both. \\ *base is the orientation of the arm's base, not counted as an IMU but used in the PCC-extended rigid-body model.}
+    \label{tab:which IMUs}
+\end{table}
+
+\subsubsection{Timing synchronization} To ensure the same sampling frequency on both the IMU model and motion capture signals, linear interpolation across time is processed on the model output. The time delay between both signals is computed using cross-correlation and removed. 
+
+\subsection{Conditions of the data acquisition}
+
+In a motion capture environment, the arm is fixed, base up, on an elevating structure (See Fig.~\ref{fig:schematic}).
+Over a $250$sec trial, the arm is moved manually with a stick attached to the arm between the two motion capture markers. During the trial 8,000 samples are collected, 
+% \sout{The flexibility of the stick makes the arm's movement smooth and fast:} 
+The median of the arm's moving speed is $0.1$ms$^{-1}$ at marker 1 and $0.2$ms$^{-1}$ at marker 2, reaching speeds up to $0.6$ms$^{-1}$.
+
+% The rigid fixation of the arm, heads up, results in a higher curvature at the bottom than at the top.
+
+The arm is moved in different modes such as oscillating (going back and forth on each side of the structure, the tip reaching positions below the base w.r.t the z-axis), buckling (pseudo vertical position and contractions along the z-axis), and ``dog chasing its tail" (the arm making circles around the z-axis while its shape forms a question mark).
+

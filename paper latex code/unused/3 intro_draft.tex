@@ -1,0 +1,17 @@
+\section{Introduction}  \label{sec:introduction}
+Soft robots are a challenge for state-estimation: whereas a robot made out of hard links can be sensed at a few joints only, soft-robots present infinite degrees of freedom to sense, which can be considered a continuum of very short joints \cite{8913522}. There is currently no silver bullet to sense soft-robots in the literature, and the field lacks off-the-shelf sensor solutions. 
+
+Today, broadly used solutions are motion capture, and serial bending sensors integration along the robot's lengths such as flexible strain sensors \cite{doi:10.1089/soro.2018.0162} \cite{8404920}, optic fiber sensors \cite{doi:10.1089/soro.2018.0131} \cite{ZHUANG20187}, magnetic curvature sensors \cite{doi:10.1089/soro.2016.0041}, piezoresistive silicone sensors \cite{9013033}, and robotics fabrics \cite{8405379} \cite{Yuen2017}. Though, these approaches leave room for improvement. Motion capture requires externally mounted cameras, which are expensive, not portable, and can present occlusions. Estimating the state of a soft robot from serial bending sensors means an integration error, in position and in orientation, and therefore a size/accuracy trade off. The data is non-linear and needs processing, sometimes requiring deep-learning \cite{doi:10.1089/soro.2018.0162} \cite{9013033} . Eventually, sensors might require a given placement such as the neutral axis \cite{doi:10.1089/soro.2016.0041} or inside the soft-robot \cite{doi:10.1089/soro.2018.0162}, or an arm-like robot shape \cite{Yuen2017}.
+
+Precedent work modeled a soft robotic arm by its corresponding rigid structure under the Piecewise Constant-Curvature (PCC) assumption  \cite{8722799} \cite{doi:10.1177/0278364910368147}, to perform closed-loop control. The sensing was made using motion capture. This paper explores the use of Inertial Measurement Units (IMUs) to replace motion capture, and therefore offer an on-board sensing framework without orientation integration error. This solution is low-cost, available off-the-shelf, and allows a high sensors density over the arm. IMUs are well-known sensors, and there are many well-developed computational resources for integrating them into robotic systems.
+
+The contributions of this paper are:
+\begin{itemize}
+    \item A method for estimating the (complex) shape of a continuum arm using only IMUs \#TODO
+    \item \#TODO denpeding on the results
+\end{itemize}
+
+In the section methods, the PCC assumption and relevant formulas will be recalled, then used to estimate the robot state using IMU data. The integration of a Recurrent Neuron Network (RNN) to fine-tune the performances will also be explored. In the experiments section, the validation experiment will be described, exposing the procedure and the setup. The section results and discussion will present plots and tables showing different models accuracy and how they could be improved. The conclusion will summarize the main contributions and make openings for future work.
+
+
+

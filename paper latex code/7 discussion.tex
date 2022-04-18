@@ -1,0 +1,50 @@
+\section{Discussion} \label{sec:discussion}
+
+% \subsection{Likely causes of error and openings for improvement}    %% Don't need subsections here
+A likely cause of error for the rigid-body model is the length of the segments for high bending values. 
+Bending reduces the distance between the joints, whereas the rigid-body model keeps it constant.
+%
+The PCC-extended rigid-body model captures the overall shape better, but since the model is a serial chain, a small error near the base propagates through the entire arm.
+This is why the error at the end-effector tends to be larger than that at the motion capture marker near the middle of the arm (see Fig.~\ref{fig:hull}).
+% Future work could investigate using non-uniform distributions of IMUs to increase sensitivity in regions with the most expected bending.
+
+Another likely source of error is the orientation of the arm relative to gravity.
+In our experiments the arm was mounted such that it points upwards from the base, causing the weight of the arm to induce larger non-constant curvatures near the base.
+This curvature near the base leads to errors that propagate and grow along the length of the arm.
+% The heads up position of the arm tends to show non-PCC behavior of the arm, which would explain the error. 
+We could potentially reduce this error by mounting the arm such that it points downward instead, 
+% it the arm heads down would probably increase highly the accuracy of the system, typically in an industrial context.
+or by changing the IMU positions along the arm such that the density of IMUs increases as we get closer to the arm's base.
+
+IMU drift might also generate errors in the IMU measurements, especially at the base. 
+The IMU we used, the bno055, auto-calibrates in the background by reaching different positions \cite{sensortec2016bno055}.
+The first IMUs along the arm have a limited range of positions, which might reduce the quality of their calibration and therefore increase the error.
+
+Ideally, the shape of the arm would be computed from IMU data quickly enough to provide a feedback signal to a real-time closed-loop controller.
+In our experiments the rigid-body model was able to provide estimates in real-time, but the PCC-extended rigid-body model was not.
+Because this work is meant only to be a proof of concept for IMU based proprioception, achieving real-time computation was not our focus.
+However, there are many ways in which computational efficiency could be improved in the future.
+% The study is meant to be a proof of concept: though, computational efficiency could be improved to have PCC-Extended Rigid-Body model running online. 
+One such approach could be to ignore the real part of the quaternions and keep only a vector along which the arm would be aligned. 
+Then linear interpolation could be used between these vectors, which is computationally 3 times lighter than spherical linear interpolation using MATLAB implementation \cite{matlab}. 
+
+
+% \subsection{How many IMUs are needed for a given arm with the Rigid-body model?}     %% Don't need subsections here
+
+Fig.~\ref{fig:err_pcc16_model} shows that increasing the number of actual IMU sensors used to generate a 16 segment model reduces the model's error. However, Fig. \ref{fig:plateau} shows that increasing the number of segments beyond 16 does not noticeably reduce the error. We interpret this to mean that a 16 segment rigid-body model is a suitable approximation of a PCC model of this arm.
+% Therefore, we expect that 16 is the maximum number of IMUs needed to approximate the shape of the arm as accurately as a PCC model.
+Therefore, we expect that for 16 or more IMUs, a rigid-body model and a continuous PCC model will approximate the shape of the arm with roughly equal accuracy.
+This ``maximum number of IMUs'' will vary from arm to arm depending on its geometry and bending stiffness.
+Future work could develop a method to compute this number for any soft arm as a function of its maximum curvature and some tolerated error threshold.
+There are computation concerns when adding additional IMUs, however. Adding more IMUs could reduce the reading frequency, especially if using a Micro Controller Unit. This could be compensated by using higher speed protocols than I2C such as SPI.
+
+%% Old version
+% This sufficient approximation number of segments value could be used as the number of IMUs that should be used to estimate the state of a given arm at best, for instance using the rigid-body model. \Yves{I don't like this sentence, we should explain better why if you can't reduce the error with more segments, then why would you reduce the error with more IMUs?}
+% . 
+% This method could also be generalized to compute the number of required segments to model any soft arm, w.r.t its maximum curvature and the tolerated error in future work.
+
+
+
+
+
+
