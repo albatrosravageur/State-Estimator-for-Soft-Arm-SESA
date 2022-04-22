@@ -12,6 +12,11 @@
 #include "LiquidCrystal.h"
 #include "button.h"
 
+
+#define BAUD_RATE 115200
+
+
+
 #define N_IMU_MAX 8     // CAN BE CHANGED
 #define MUX_0_ADDR 0x70 // Using TCA9548A
 #define DELAY_BETWEEN_SIGNALS_MS 500.0
@@ -42,7 +47,6 @@ void setup_sensors()
   lcd.print("Begin IMU: 0/  ");
   lcd.setCursor(13, 0);
   lcd.print(n_imu);
-  int count = 0;
   // Read all IMU, check
   for (uint8_t i = 0; i < n_imu; i++)
   {
@@ -50,7 +54,7 @@ void setup_sensors()
     lcd.print(String(i + 1)); // print the text to the lcd
     bno[i] = Adafruit_BNO055(55, 0x28);
     I2CMux.openChannel(i);
-    count += bno[i].begin();
+    bno[i].begin();
     bno[i].setAxisRemap(bno[i].REMAP_CONFIG_P1);
     bno[i].setAxisSign(bno[i].REMAP_SIGN_P1);
     I2CMux.closeChannel(i);
@@ -139,7 +143,7 @@ void setup()
   lcd.print("Booting..."); // print the text to the lcd
 
   // ROS Setup
-  nh.getHardware()->setBaud(115200); // Fastest baud for MEGA2560
+  nh.getHardware()->setBaud(BAUD_RATE); // Fastest baud for MEGA2560
   nh.initNode();
   while (!nh.connected())
   {

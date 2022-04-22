@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 2.8.3)
 
+# EDIT HERE 
+set(my_port /dev/ttyACM0)
+set(my_board mega2560)
+set(ARDUINO_SDK_PATH,~/snap/arduino/61/Arduino)
 # Remove this if using an Arduino without native USB (eg, other than Leonardo)
 #add_definitions(-DUSB_CON)
-
-SET(MY_PORT "/dev/ttyACM0" CACHE STRING "Arduino port")
 
 # END EDIT
 
@@ -35,7 +37,7 @@ generate_arduino_firmware(stream
     ${ROS_LIB_DIR}/time.cpp 
     BOARD mega2560
     PORT /dev/ttyACM1
-    )
+)
 
 generate_arduino_firmware(calibrate
   SRCS  scripts/calibrate.cpp   

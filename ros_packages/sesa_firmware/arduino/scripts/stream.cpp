@@ -13,6 +13,10 @@
 #include "LiquidCrystal.h"
 #include "button.h"
 
+
+#define BAUD_RATE 115200
+
+
 #define N_BNO_MAX 8     // FOR THE PROJECT 2
 #define MUX_0_ADDR 0x70 // Using TCA9548A
 
@@ -227,7 +231,7 @@ void setup()
   but_cal.begin(BUTTON_CALIB_INPUT, BUTTON_CALIB_OUTPUT);
 
   // ROS Setup
-  nh.getHardware()->setBaud(115200); // Fastest baud for MEGA2560
+  nh.getHardware()->setBaud(BAUD_RATE); // Fastest baud for MEGA2560
   nh.initNode();
   while (!nh.connected())
   {
