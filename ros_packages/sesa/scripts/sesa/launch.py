@@ -26,7 +26,6 @@ if __name__ == '__main__':
     rospy.set_param('/imus/amount', sum(imus['enabled']))
     rospy.set_param('/imus/list', [x+1 for x in range(8) if imus['enabled'][x]])
 
-
     markers = rospy.get_param('/markers')
     rospy.set_param('/markers/use',bool(sum(markers['enabled'])))
 

@@ -1,5 +1,5 @@
 allow_none: true
-arduino: {baud: 115200, boot: false, port: /dev/ttyACM0}
+arduino: {baud: 115200, boot: true, port: /dev/ttyACM1}
 arduino_use_yaml: true
 arm_length: 0.65
 arm_radius: 0.03
@@ -8,7 +8,7 @@ calib: {calibrate_file: my_calib.yaml, id: 1, saved_file: my_calib.yaml, use_fas
   use_saved: false}
 imus:
   amount: 1
-  enabled: [true, true, true, true, true, false, false, false]
+  enabled: [true, true, true, true, true, true, false, false]
   offset_quaternion: {w: -0.717, x: 0.717, y: 0, z: 0.0}
   positions: [0.0, 0.0622, 0.1422, 0.2222, 0.3022, 0.3822, 0.4622, 0.5422, 0.6222]
 markers:
@@ -16,17 +16,17 @@ markers:
   enabled: [true, true, true, true, true, true, true, false]
   positions: [0.1, 0.2, 0.3, 0, 0, 0, 0, 0, 0]
   radius: 0.04
-  show: true
+  show: false
   use: true
-mode: stream
+mode: calibrate
 my_rosbag:
   to_play: {file: prev_saved_data_to_play.bag, rate: 1.0, start: 0.0}
   to_record: {accelerometers: false, file: freshly_recorded_data.bag, markers: false,
     quaternions: false}
-rviz_gui: true
+rviz_gui: false
 segments: [4, 4, 4, 1, 0, 1, 1, 1]
 source: arduino
-topics: {acc_meas: true, calib_meas: true, calib_status: true, markers: true, quat_meas: true,
+topics: {acc_meas: true, calib_meas: true, calib_status: false, markers: true, quat_meas: true,
   rosout: false}
 topics_per_mode:
   calibrate: [calib_meas, rosout, calib_status, '']

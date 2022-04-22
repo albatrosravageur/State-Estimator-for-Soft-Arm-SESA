@@ -68,6 +68,7 @@
 <xacro:addSegment parent="base_link" child="33" color="black" leng="0.02"/> 
 <xacro:addSegment parent="base_link" child="34" color="black" leng="0.02"/> 
 <xacro:addSegment parent="base_link" child="41" color="purple" leng="0.08"/> 
+<xacro:addSegment parent="base_link" child="61" color="purple" leng="0.08"/> 
 
 <xacro:addMarker name='marker_0'/> 
 <xacro:addMarker name='marker_1'/> 

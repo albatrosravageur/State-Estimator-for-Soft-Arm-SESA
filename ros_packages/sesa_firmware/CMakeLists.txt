@@ -18,7 +18,7 @@ rosserial_configure_client(
   TOOLCHAIN_FILE ${ROSSERIAL_ARDUINO_TOOLCHAIN}
   )
 
-rosserial_add_client_target(arduino calibrate-upload)
+rosserial_add_client_target(arduino calibration-upload)
 rosserial_add_client_target(arduino stream-upload)
 
 

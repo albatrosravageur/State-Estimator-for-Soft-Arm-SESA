@@ -39,7 +39,7 @@ def callback(data):
     my_set_param('/gyro/z',data.off_gyroZ)
     my_set_param('/rad/acc',data.rad_acc)
     my_set_param('/rad/mag',data.rad_mag)
-    setattr(my_calibration_status, 'head',"sys  gyro   acc    mag")
+    setattr(my_calibration_status, 'header',"sys  gyro   acc    mag")
     setattr(my_calibration_status,'imu_'+sensor,str(data.sys)+'     '+str(data.gyro)+'     '+str(data.acc)+'     '+str(data.mag))
     pub = rospy.Publisher('calib_status', calibration_status, queue_size=10)
     pub.publish(my_calibration_status)

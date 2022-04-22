@@ -9,7 +9,7 @@ This project has 2 possible firmwares:
         The IMU is set in NDOF mode, which auto-calibrate across time using the embedded firmware of BNO055 (Fast Magnetometer calibration).
         If the parameter `calib/use_saved`  is true, the firmware loads a pre-recorded calibration `calib/saved_file` saved in `calib/saved_path`.
 
-    - *calibrate*. This firmware streams the calibration state. This ROS package can save the stream calibration data into a local file throught the `save_calibration.py` script.
+    - *calibration*. This firmware streams the calibration state. This ROS package can save the stream calibration data into a local file throught the `save_calibration.py` script.
 
 # How to compile and load the firmware to Arduino
 
@@ -18,10 +18,10 @@ To compile the firmware for *stream*, open a terminal and enter the following co
 $ cd PATH_TO/catkin_ws
 $ catkin_make sesa_firmware_arduino_stream-upload
 ```
-To compile and load the firmware for *calibrate*, enter the following commands:
+To compile and load the firmware for *calibration*, enter the following commands:
 ```
 $ cd PATH_TO/catkin_ws
-$ catkin_make sesa_firmware_arduino_calibrate-upload
+$ catkin_make sesa_firmware_arduino_calibration-upload
 ```
 
 
