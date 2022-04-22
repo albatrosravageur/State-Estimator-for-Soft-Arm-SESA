@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
     # Push code to Arduino
     if arduino_boot:
-        os.system("cd ~/catkin_ws && catkin_make sesa_firmware_arduino_"+mode+"-upload port:='"+arduino_port+"' ")
+        os.system("cd ~/catkin_ws && catkin_make sesa_firmware_arduino_"+mode+"-upload -DMY_PORT:="+arduino_port)
 
     node_list = []
     # Serial communication with Arduino

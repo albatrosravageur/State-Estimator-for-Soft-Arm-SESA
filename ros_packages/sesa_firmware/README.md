@@ -25,7 +25,7 @@ $ catkin_make sesa_firmware_arduino_stream-upload
 To compile and load the firmware for *calibration*, enter the following commands:
 ```
 $ cd PATH_TO/catkin_ws
-$ catkin_make sesa_firmware_arduino_calibration-upload
+$ catkin_make sesa_firmware_arduino_calibrate-upload
 ```
 
 # Electronics schematics
