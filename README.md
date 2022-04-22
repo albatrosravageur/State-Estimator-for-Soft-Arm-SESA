@@ -104,9 +104,13 @@ The calibration attached to this value will be changed in your calibration file.
 ### Click the arduino boot case
 This button will push the calibration firmware directly to the arduino board. You need to click this button when you want to switch mode from stream to calibration and from calibration to stream.
 
-### Set the Arduino port and Baud rate
-Select the right port to connect your Arduino board. 
-Defaut Baud rate is 115200, but if you change it in the firmware, you have to change it here. 
+### Set the Arduino port
+Type the right port to connect your Arduino board on the GUI.
+If your port is not /dev/ACM1, and that you want to push code to the board, you need open `/sesa_firmware/arduino/CMakeLists.txt`, and to change `PORT /dev/ttyACM1` to `PORT [YOUR PORT]`.
+
+### Set the Arduino baud rate
+Defaut Baud rate is 115200.
+If you want to change the baud rate, you need to open the folder `/sesa_firmware/arduino/scripts/`, and to modify the baud rate in `calibrate.cpp` and `stream.cpp`. The variable to change is on top of both folders and is called `BAUD_RATE`.
 
 ### Select what topic you want to see 
 On the rostopic echo part, you can decide to monitor different topics such as the state of calibration (how well is the calibration done), the calibration itself and rosout. It is recommended to click the state of calibration on.
