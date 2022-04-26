@@ -27,14 +27,6 @@ Using 8 IMUs and modeling the arm by 32 rigid bodies:
 - the reading frequency of the IMUs is around 30Hz, but could be improved since the BNO055 output rate is 100Hz.
 - the experimentation described in the paper shows around 10% of accuracy if the arm has a piece-wise constant curvature behavior between the IMUs and if the maximum angle between two IMUs is pi/2 rad.
 
-# Repo structure
-## SESA Package
-This ROS package streams IMUs using I2C protocol and a multiplexer. Then, it estimates the shape of the soft arm and displays it on a RVIZ interface.
-## SESA Firmware
-Contains the Arduino firmware that is pushed to the Arduino Board. 
-## Data processing
-A Jupyter Notebook to evaluate the performance of this method w.r.t motion capture (only useful to check the results of the paper).
-
 
 # Wire up your hardware
 Your hardware circuit should look like on the following shematic. Good pratise is to numberize your IMUs from 1 to 8. 
@@ -81,7 +73,9 @@ roslaunch sesa my_launch.launch
 
 A GUI should appear. Click "quit" to exit.
 
-# Calibration
+# State estimator (streaming mode)
+
+# Calibrate your IMUs (calibration mode)
 Each IMU will be calibrated one by one. 
 
 ## Run the launcher
@@ -129,9 +123,14 @@ Draw an 8 in the air like shown on this figure.
 Hold your IMU in different positions such as shown on this figure. 
 ![Calibrate accelerometer](images/accelerometer.png)
 
-# TODO streaming
 
-
+# Repo structure
+## SESA Package
+This ROS package streams IMUs using I2C protocol and a multiplexer. Then, it estimates the shape of the soft arm and displays it on a RVIZ interface.
+## SESA Firmware
+Contains the Arduino firmware that is pushed to the Arduino Board. 
+## Data processing
+A Jupyter Notebook to evaluate the performance of this method w.r.t motion capture (only useful to check the results of the paper).
 
 # Nodes
 Depending on the configuration entered by the user in the GUI, the nodes are launched or not. The nodes use the configuration as an input. Therefore, the code is modular and adapts to the need of the user. The configuration is saved as a configuration file, then pushed to `rosparam`.
