@@ -46,6 +46,7 @@ It can be run as a virtual machine using Virtual Box [here](https://www.virtualb
 
 ## Install ROS Melodic
 A tutorial to install ROS Melodic can be found [here](http://wiki.ros.org/melodic/Installation/Ubuntu).
+Then, create a workspace [tutorial](http://wiki.ros.org/catkin/Tutorials/create_a_workspace).
 
 Note: we recommend to create your catkin workspace under the folder `home/[YOUR USER]`.  
 
