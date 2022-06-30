@@ -6,6 +6,9 @@ This project aims at estimating the state of soft hyperredundant arms using Iner
 - ROS Melodic
 - Ubuntu 18.04
 
+## Python modules dependencies
+- PyQt4
+
 ## State estimation method
 To estimate the state of the arm, we sense its orientation at each IMU emplacement by reading the corresponding IMU. Then, we model the arm as a series of rigid bodies. Between each IMUs, the arm is cut into a number of rigid bodies set by the user. Each rigid body is oriented using spherical linear interpolation. 
 
