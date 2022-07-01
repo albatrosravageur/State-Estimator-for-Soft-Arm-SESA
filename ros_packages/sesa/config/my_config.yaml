@@ -16,14 +16,14 @@ markers:
   enabled: [true, true, true, true, true, true, true, false]
   positions: [0.1, 0.2, 0.3, 0, 0, 0, 0, 0, 0]
   radius: 0.04
-  show: false
+  show: true
   use: true
-mode: calibrate
+mode: stream
 my_rosbag:
   to_play: {file: prev_saved_data_to_play.bag, rate: 1.0, start: 0.0}
   to_record: {accelerometers: false, file: freshly_recorded_data.bag, markers: false,
     quaternions: false}
-rviz_gui: false
+rviz_gui: true
 segments: [4, 4, 4, 1, 0, 1, 1, 1]
 source: arduino
 topics: {acc_meas: true, calib_meas: true, calib_status: false, markers: true, quat_meas: true,
