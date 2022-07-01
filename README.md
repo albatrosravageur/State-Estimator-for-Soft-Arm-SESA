@@ -48,10 +48,19 @@ Ubuntu 18.04 can be downloaded [here](https://releases.ubuntu.com/18.04/).
 It can be run as a virtual machine using Virtual Box [here](https://www.virtualbox.org/wiki/Downloads).
 
 ## Install ROS Melodic
+### ROS
 A tutorial to install ROS Melodic can be found [here](http://wiki.ros.org/melodic/Installation/Ubuntu).
+
 Then, create a workspace [tutorial](http://wiki.ros.org/catkin/Tutorials/create_a_workspace).
 
 Note: we recommend to create your catkin workspace under the folder `home/[YOUR USER]`.  
+
+## Arduino
+First, install Arduino IDE.
+
+Then, configure ROS Arduino [tutorial](http://wiki.ros.org/rosserial_arduino/Tutorials/Arduino%20IDE%20Setup).
+
+Check that your board is read by your port using the Arduino IDE.
 
 ## Clone the repo
 Clone the repo to your `src/` folder:
