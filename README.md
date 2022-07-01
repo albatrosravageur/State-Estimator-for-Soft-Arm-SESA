@@ -64,6 +64,7 @@ git clone https://github.com/albatrosravageur/State-Estimator-for-Soft-Arm-SESA
 ## Make
 Make using the command:
 ```
+source devel/setup.bash
 cd ~/catkin_ws
 catkin_make
 ```
